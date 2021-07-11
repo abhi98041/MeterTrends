@@ -1,16 +1,10 @@
-import { StatusBar } from 'expo-status-bar';
 import React from 'react';
 import { StyleSheet, Text, View } from 'react-native';
 import { FloatingAction } from "react-native-floating-action";
-import * as SQLite from 'expo-sqlite';
+import AddMeterForm from './screens/addMeterForm';
+import AddMeterReadingForm from './screens/addMeterReadingForm';
+import MeterReadingChart from './screens/meterReadingChart';
 
-const db=SQLite.openDatabase(
-  {
-    name: 'MeterTread',
-    location: 'default',
-  },()=>{},
-  error =>{console.log(error)}
-)
 
 export default function App() {
   const actions = [
@@ -24,6 +18,9 @@ export default function App() {
   return (
 <View style={styles.container}>
   <Text style={styles.example}>Floating Action example</Text>
+  {/* <AddMeterForm/> */}
+  {/* <AddMeterReadingForm/> */}
+  <MeterReadingChart/>
   <FloatingAction
     actions={actions}
     onPressItem={name => {
