@@ -1,41 +1,25 @@
-import React from 'react';
+import React ,{useState}from 'react';
 import { StyleSheet, Text, View } from 'react-native';
-import { FloatingAction } from "react-native-floating-action";
+import { createStackNavigator } from '@react-navigation/stack';
 import AddMeterForm from './screens/addMeterForm';
 import AddMeterReadingForm from './screens/addMeterReadingForm';
 import MeterReadingChart from './screens/meterReadingChart';
-
+import { AppNavigator } from "./routes/homeStack";
+import AppLoading from 'expo-app-loading';
 
 export default function App() {
-  const actions = [
-    {
-      text: "Add New Meter",
-      icon: require("./assets/icons/icons8-energy-meter-96.png"),
-      name: "bt_meter",
-      position: 1
-    }
-  ];
-  return (
-<View style={styles.container}>
-  <Text style={styles.example}>Floating Action example</Text>
-  {/* <AddMeterForm/> */}
-  {/* <AddMeterReadingForm/> */}
-  <MeterReadingChart/>
-  <FloatingAction
-    actions={actions}
-    onPressItem={name => {
-      console.log(`selected button: ${name}`);
-    }}
-  />
-</View>
-  );
+    return (
+      <AppNavigator />
+      // <View style={styles.container}>
+      // <AddMeterForm/>
+      // </View>
+    );
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-});
+// const styles = StyleSheet.create({
+//   container: {
+//       flex: 1,
+//       paddingTop: 40,
+//       alignContent: 'center',
+//       alignItems: 'center'
+//   },
+// });
