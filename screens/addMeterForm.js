@@ -1,32 +1,11 @@
 import React from 'react';
 import { StyleSheet, TextInput,Button, View } from 'react-native';
-import * as SQLite from 'expo-sqlite';
 import { Formik } from 'formik';
-function openDatabase() {
-    if (Platform.OS === "web") {
-      return {
-        transaction: () => {
-          return {
-            executeSql: () => {},
-          };
-        },
-      };
-    }
+import { openDatabase } from '../shared/dbFunctions';
+
   
-    const db = SQLite.openDatabase("metertrend.db");
-    return db;
-  }
-  
-  const db = openDatabase();
-// function showItems(){
-//     db.transaction((tx) => {
-//         tx.executeSql(
-//           `select * from meternames;`,
-//           [],
-//           (_, { rows: { _array } }) => console.log(_array)
-//         );
-//       });
-// }
+const db = openDatabase();
+
 
 export default function AddMeterForm() {
 
@@ -38,7 +17,7 @@ export default function AddMeterForm() {
   
     const add = (value) => {
       // is text empty?
-      if (value.name === null || value.name === "") {
+      if (value.metername === null || value.metername === "") {
         return false;
       }
       if(value.costperunit === null || value.costperunit === ""){
@@ -47,7 +26,7 @@ export default function AddMeterForm() {
   
       db.transaction(
         (tx) => {
-          tx.executeSql("insert into metername (name, costperunit) values (?, ?)", [value.name,value.costperunit]);
+          tx.executeSql("insert into metername (name, costperunit) values (?, ?)", [value.metername,value.costperunit]);
           tx.executeSql("select * from metername", [], (_, { rows }) =>
             console.log(JSON.stringify(rows))
           );
