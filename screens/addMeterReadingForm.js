@@ -6,6 +6,7 @@ const db = openDatabase();
 
 
 export default function AddMeterReadingForm({route,navigation}) {
+  const [postRefesh, setpostRefesh] = React.useState(false);
   const {id}=route.params;
   console.log(id);
   // console.log( route.params('id'));
@@ -39,7 +40,12 @@ export default function AddMeterReadingForm({route,navigation}) {
      onSubmit={values => {
          console.log(values);
         add(values);
-
+        setpostRefesh(true);
+        navigation.navigate({
+          name: 'Home',
+          params: { needRefresh: postRefesh },
+          merge: true,
+        });
     }}
    >
      {({ handleChange,handleBlur, handleSubmit, values }) => (
