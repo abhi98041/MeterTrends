@@ -7,8 +7,8 @@ import { openDatabase } from '../shared/dbFunctions';
 const db = openDatabase();
 
 
-export default function AddMeterForm({ addMeter, navigation }) {
-  // let { addMeter } = route.params;
+export default function AddMeterForm({ navigation }) {
+  const [postRefesh, setpostRefesh] = React.useState(false);
   db.transaction((tx) => {
     tx.executeSql(
       "create table if not exists metername (id integer primary key not null, name text, costperunit float);"
@@ -29,7 +29,6 @@ export default function AddMeterForm({ addMeter, navigation }) {
         tx.executeSql("insert into metername (name, costperunit) values (?, ?)", [value.metername, value.costperunit]);
         tx.executeSql("select * from metername", [], (_, { rows }) => {
           console.log(JSON.stringify(rows));
-          // addMeter(rows);
         }
         );
       },
@@ -45,17 +44,23 @@ export default function AddMeterForm({ addMeter, navigation }) {
       onSubmit={values => {
         //  console.log(values);
         add(values);
-        navigation.pop();
+        setpostRefesh(true);
+        navigation.navigate({
+          name: 'Home',
+          params: { needRefresh: postRefesh },
+          merge: true,
+        });
 
       }}
     >
       {({ handleChange, handleBlur, handleSubmit, values }) => (
-        <View>
+        <View style={styles.container}>
           <TextInput
             placeholder='Meter Name'
             onChangeText={handleChange('metername')}
             onBlur={handleBlur('metername')}
             value={values.metername}
+            style={styles.input}
           />
           <TextInput
             placeholder='Cost Per Unit'
@@ -63,6 +68,7 @@ export default function AddMeterForm({ addMeter, navigation }) {
             onBlur={handleBlur('costperunit')}
             value={values.costperunit}
             keyboardType='decimal-pad'
+            style={styles.input}
           />
           <Button onPress={handleSubmit} title="Save" />
         </View>
@@ -73,8 +79,16 @@ export default function AddMeterForm({ addMeter, navigation }) {
 
 const styles = StyleSheet.create({
   container: {
-    backgroundColor: '#ddd',
-    alignItems: 'center',
-    justifyContent: 'center',
+    flex: 1,
+    justifyContent: 'flex-start'
   },
+  input:{
+    borderWidth: 1,
+    borderRadius: 20,
+    borderColor: '#ddd',
+    height: 50,
+    marginBottom: 10,
+    marginTop: 10
+    
+  }
 });

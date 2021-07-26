@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { ActivityIndicator, StyleSheet, View, FlatList } from 'react-native';
 
 import { openDatabase } from '../shared/dbFunctions';
-import { FAB, Card, Title, Paragraph,Button, IconButton, Colors, Provider,Portal,Dialog } from 'react-native-paper';
+import { FAB, Card, Title, Paragraph,Button, IconButton, Colors, Provider,Portal,Dialog,Modal } from 'react-native-paper';
 
 const db = openDatabase();
 
@@ -18,6 +18,8 @@ export default function Home({route, navigation }) {
     const [visible, setVisible] = useState(false);
     const [meterid, setmeterid] = useState('');
   
+
+    
   
     function showDialog() {
       // setmeterid(id);

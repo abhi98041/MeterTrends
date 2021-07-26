@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useState} from 'react';
 import { StyleSheet, TextInput,Button, View } from 'react-native';
 import { Formik } from 'formik';
 import { openDatabase } from '../shared/dbFunctions';
@@ -6,7 +6,7 @@ const db = openDatabase();
 
 
 export default function AddMeterReadingForm({route,navigation}) {
-  const [postRefesh, setpostRefesh] = React.useState(false);
+  const [date, setDate] = useState(new Date());
   const {id}=route.params;
   console.log(id);
   // console.log( route.params('id'));
@@ -33,31 +33,26 @@ export default function AddMeterReadingForm({route,navigation}) {
         
       );
     };
-
   return (
 <Formik
      initialValues={{ unitreading: ''}}
      onSubmit={values => {
          console.log(values);
         add(values);
-        setpostRefesh(true);
-        navigation.navigate({
-          name: 'Home',
-          params: { needRefresh: postRefesh },
-          merge: true,
-        });
+
     }}
    >
      {({ handleChange,handleBlur, handleSubmit, values }) => (
-       <View>
+       <View style={styles.container}>
          <TextInput
          placeholder='Unit Reading'
            onChangeText={handleChange('unitreading')}
            onBlur={handleBlur('unitreading')}
            value={values.unitreading}
            keyboardType='numeric'
+           style={styles.input}
          />
-               
+        
          <Button onPress={handleSubmit} title="Save" />
        </View>
      )}
@@ -67,8 +62,16 @@ export default function AddMeterReadingForm({route,navigation}) {
 
 const styles = StyleSheet.create({
   container: {
-    backgroundColor: '#ddd',
-    alignItems: 'center',
-    justifyContent: 'center',
+    flex: 1,
+    justifyContent: 'flex-start'
   },
+  input:{
+    borderWidth: 1,
+    borderRadius: 20,
+    borderColor: '#ddd',
+    height: 50,
+    marginBottom: 10,
+    marginTop:10
+
+  }
 });
